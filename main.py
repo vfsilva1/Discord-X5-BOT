@@ -18,8 +18,14 @@ class Match:
     print('SORTEIO TESTE')
     levelDiff = 10
     halfNumber = int(len(players) / 2)
+    diff = 0.2
+    counter = 0
+    while levelDiff > diff:
+      counter += 1
+      
+      if(counter > 1000):
+        diff += 0.2
 
-    while levelDiff > 0.8:
       sumLevels = 0
       shuffle(players)
       firstTeam = players[:halfNumber]
@@ -45,7 +51,7 @@ class Match:
       levelDiff = abs(levelAverageT1 - levelAverageT2)
       print('Level diff: ' + str(levelDiff))
       print('=================================')
-    
+
     return firstTeam, secondTeam, levelAverageT1, levelAverageT2
 
 client = discord.Client()
@@ -72,7 +78,7 @@ async def on_message(message):
   #
   if message.content.startswith('!x5'):
     await message.channel.send("EU OUVI X5? :eyes: :eyes: :eyes:")
-    await message.channel.send("**Comandos:**\n**!level {level}** => Digite para atribuir um level a você. Só é preciso digiar uma vez ou caso queira atualizar o seu level.\n**!create {nomeDoX5}** => Criar lobby X5\n**!join {nomeDoX5}** => Entrar no X5\nAssim que a Lobby completar 10 jogadores, irei sortear os times!")
+    await message.channel.send("**Comandos:**\n**!level {level}** => Digite para atribuir um level a você. Só é preciso digiar uma vez ou caso queira atualizar o seu level.\n**!create {nomeDoX5}** => Criar lobby X5\n**!join {nomeDoX5}** => Entrar no X5\n**!delete** => Deletar o X5 atual\nAssim que a Lobby completar 10 jogadores, irei sortear os times!")
 
   # 
   # !LOBBY   
@@ -89,7 +95,7 @@ async def on_message(message):
   if message.content.startswith('!join'):
     lobbyName = message.content.split()[1]
   
-    if match.lobbyName != lobbyName:
+    if match == None:
       await message.channel.send('Nome inválido ou o X5 ainda não foi criado!\nDigite **!create {nomeDoX5}** para criar um X5!')
       return
     
@@ -123,7 +129,7 @@ async def on_message(message):
         await message.channel.send('**' + str(len(match.players)) + ' Jogadores no X5! Faltam ' + str(playersLeft) + '!**')
       
     else:
-      await message.channel.send('Nome da Lobby inválida!\nDigite **!create {nomeDoX5}** para criar um X5!')
+      await message.channel.send('Nome inválido ou o X5 ainda não foi criado!\nDigite **!create {nomeDoX5}** para criar um X5!')
 
   # 
   # !LEVEL   
@@ -141,7 +147,7 @@ async def on_message(message):
       await message.channel.send("{}".format(message.author.mention) + " é Level " + level + "!")
 
   #
-  # !draw
+  # !DRAW
   #
   if message.content.startswith('!draw'):
     await message.channel.send('Sorteando times...')
@@ -155,6 +161,13 @@ async def on_message(message):
     for player in teamTwo:
       await message.channel.send('{}'.format(player.author.mention) + ' Level ' + str(player.level))
 
+  #
+  # !delete
+  #
+  if message.content.startswith('!delete'):
+    match = None
+    players = []
+    await message.channel.send('X5 Deletado!\nDigite **!create {nomeDoX5}** para criar um X5')
 
   # 
   # PLANO?   
