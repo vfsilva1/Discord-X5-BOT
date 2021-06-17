@@ -15,7 +15,7 @@ class Match:
     self.players = players
 
   def draw_teams(self, message, players):
-    print('SORTEIO TESTE')
+    print('SORTEIO')
     levelDiff = 10
     halfNumber = int(len(players) / 2)
     diff = 0.2
@@ -78,7 +78,7 @@ async def on_message(message):
   #
   if message.content.startswith('!x5'):
     await message.channel.send("EU OUVI X5? :eyes: :eyes: :eyes:")
-    await message.channel.send("**Comandos:**\n**!level {level}** => Digite para atribuir um level a você. Só é preciso digiar uma vez ou caso queira atualizar o seu level.\n**!create {nomeDoX5}** => Criar lobby X5\n**!join {nomeDoX5}** => Entrar no X5\n**!delete** => Deletar o X5 atual\nAssim que a Lobby completar 10 jogadores, irei sortear os times!")
+    await message.channel.send("**Comandos:**\n**!level {level}** => Digite para atribuir um level a você. Só é preciso digiar uma vez ou caso queira atualizar o seu level.\n**!create {nomeDoX5}** => Criar lobby X5\n**!join {nomeDoX5}** => Entrar no X5\n**!delete** => Deletar o X5 atual\nAssim que o X5 completar 10 jogadores, irei sortear os times!")
 
   # 
   # !LOBBY   
@@ -162,7 +162,7 @@ async def on_message(message):
       await message.channel.send('{}'.format(player.author.mention) + ' Level ' + str(player.level))
 
   #
-  # !delete
+  # !DELETE
   #
   if message.content.startswith('!delete'):
     match = None
